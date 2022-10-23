@@ -1,4 +1,4 @@
-import { Genre } from './genre.enum.js';
+import { Genre } from './genre.type.js';
 import { User } from './user.type.js';
 
 export type Movie = {
