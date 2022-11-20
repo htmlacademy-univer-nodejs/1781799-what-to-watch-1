@@ -40,12 +40,14 @@
     "npm": "8.1.0"
   },
   "dependencies": {
+    "@typegoose/typegoose": "9.12.1",
     "convict": "6.2.3",
     "convict-format-with-validator": "6.2.0",
     "dayjs": " 1.11.6",
     "dotenv": "16.0.3",
     "got": "12.5.2",
     "inversify": "6.0.1",
+    "mongoose": "6.6.5",
     "pino": "8.7.0",
     "reflect-metadata": "0.1.13"
   }
