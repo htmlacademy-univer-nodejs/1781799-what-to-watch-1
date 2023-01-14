@@ -1,7 +1,7 @@
 import TSVFileReader from '../common/file-reader/tsv-file-reader.js';
+import chalk from 'chalk';
 import { CliCommandInterface } from './cli-command.interface.js';
 import { getMovieByRowData } from '../common/generator/movie-generator.js';
-import chalk from 'chalk';
 import { UserServiceInterface } from '../modules/user/user-service.interface';
 import { MovieServiceInterface } from '../modules/movie/movie-service.interface';
 import { DatabaseInterface } from '../common/database-client/database.interface';
@@ -12,7 +12,7 @@ import { MovieModel } from '../modules/movie/movie.entity.js';
 import { UserService } from '../modules/user/user.service.js';
 import { UserModel } from '../modules/user/user.entity.js';
 import { DatabaseService } from '../common/database-client/database.service.js';
-import { getURI } from '../utils/db.js';
+import { getDatabaseURI } from '../utils/db.js';
 
 export default class ImportCommand implements CliCommandInterface {
   public readonly name = '--import';
@@ -37,7 +37,7 @@ export default class ImportCommand implements CliCommandInterface {
     port: string,
     dbname: string,
     salt: string): Promise<void> {
-    const uri = getURI(login, password, host, Number.parseInt(port, 10), dbname);
+    const uri = getDatabaseURI(login, password, host, Number.parseInt(port, 10), dbname);
     this.salt = salt;
 
     await this.databaseService.connect(uri);
