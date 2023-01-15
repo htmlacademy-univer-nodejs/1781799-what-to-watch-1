@@ -1,5 +1,8 @@
 import mongoose from 'mongoose';
-import { inject, injectable } from 'inversify';
+import {
+  inject,
+  injectable
+} from 'inversify';
 import { Component } from '../../types/component.types.js';
 import { LoggerInterface } from '../logger/logger.interface';
 import { DatabaseInterface } from './database.interface';
@@ -12,7 +15,7 @@ export class DatabaseService implements DatabaseInterface {
   }
 
   public async connect(uri: string): Promise<void> {
-    this.logger.info('Try to connect to MongoDB…');
+    this.logger.info('Try to connect to MongoDB');
     await mongoose.connect(uri);
     this.logger.info('Database connection established.');
   }

@@ -1,6 +1,13 @@
 import { MockData } from '../../types/mock-data.type.js';
-import { getRandomItem, getRandomItems, getRandomNumber } from '../../utils/random.js';
-import { GENRES, getGenre } from '../../types/genre.type.js';
+import {
+  getRandomItem,
+  getRandomItems,
+  getRandomNumber
+} from '../../utils/random.js';
+import {
+  GENRES,
+  getGenre
+} from '../../types/genre.type.js';
 import { Movie } from '../../types/movie.type.js';
 import dayjs from 'dayjs';
 

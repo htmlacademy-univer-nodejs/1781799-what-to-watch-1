@@ -1,8 +1,15 @@
-import typegoose, { defaultClasses, getModelForClass, Ref } from '@typegoose/typegoose';
+import {
+  prop,
+  modelOptions,
+  defaultClasses,
+  getModelForClass,
+  Ref
+} from '@typegoose/typegoose';
 import { UserEntity } from '../user/user.entity.js';
-import { GENRES, TGenre } from '../../types/genre.type.js';
-
-const {prop, modelOptions} = typegoose;
+import {
+  GENRES,
+  TGenre
+} from '../../types/genre.type.js';
 
 export interface MovieEntity extends defaultClasses.Base {
 }
@@ -67,6 +74,9 @@ export class MovieEntity extends defaultClasses.TimeStamps {
 
   @prop({required: true})
   public backgroundColor!: string;
+
+  @prop({required: false})
+  public isPromo?: boolean;
 }
 
 export const MovieModel = getModelForClass(MovieEntity);

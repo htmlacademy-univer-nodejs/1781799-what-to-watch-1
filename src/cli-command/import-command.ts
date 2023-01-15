@@ -1,7 +1,8 @@
 import TSVFileReader from '../common/file-reader/tsv-file-reader.js';
+import chalk from 'chalk';
+import ConfigService from '../common/config/config.service';
 import { CliCommandInterface } from './cli-command.interface.js';
 import { getMovieByRowData } from '../common/generator/movie-generator.js';
-import chalk from 'chalk';
 import { UserServiceInterface } from '../modules/user/user-service.interface';
 import { MovieServiceInterface } from '../modules/movie/movie-service.interface';
 import { DatabaseInterface } from '../common/database-client/database.interface';
@@ -12,7 +13,8 @@ import { MovieModel } from '../modules/movie/movie.entity.js';
 import { UserService } from '../modules/user/user.service.js';
 import { UserModel } from '../modules/user/user.entity.js';
 import { DatabaseService } from '../common/database-client/database.service.js';
-import { getURI } from '../utils/db.js';
+import { getDatabaseURI } from '../utils/db.js';
+import { ConfigInterface } from '../common/config/config.interface';
 
 export default class ImportCommand implements CliCommandInterface {
   public readonly name = '--import';
@@ -20,6 +22,7 @@ export default class ImportCommand implements CliCommandInterface {
   private movieService!: MovieServiceInterface;
   private databaseService!: DatabaseInterface;
   private logger: LoggerInterface;
+  private config: ConfigInterface;
   private salt!: string;
 
   constructor() {
@@ -27,24 +30,23 @@ export default class ImportCommand implements CliCommandInterface {
     this.movieService = new MovieService(this.logger, MovieModel);
     this.userService = new UserService(this.logger, UserModel);
     this.databaseService = new DatabaseService(this.logger);
+    this.config = new ConfigService(this.logger);
   }
 
-  public async execute(
-    filename: string,
-    login: string,
-    password: string,
-    host: string,
-    port: string,
-    dbname: string,
-    salt: string): Promise<void> {
-    const uri = getURI(login, password, host, Number.parseInt(port, 10), dbname);
-    this.salt = salt;
+  public async execute(filename: string): Promise<void> {
+    const uri = getDatabaseURI(
+      this.config.get('DB_USER'),
+      this.config.get('DB_PASSWORD'),
+      this.config.get('DB_HOST'),
+      this.config.get('PORT'),
+      this.config.get('DB_NAME'));
+    this.salt = this.config.get('SALT');
 
     await this.databaseService.connect(uri);
     const fileReader = new TSVFileReader(filename.trim());
     fileReader.on('line', async (line) => {
       const movie = getMovieByRowData(line);
-      console.log(movie);
+      this.logger.info(`${movie}`);
       const user = await this.userService.findOrCreate({
         ...movie.user,
         password: '12345'
@@ -57,7 +59,7 @@ export default class ImportCommand implements CliCommandInterface {
 
     });
     fileReader.on('end', (count) => {
-      console.log(`${count} rows imported.`);
+      this.logger.info(`${count} rows imported.`);
     });
 
     try {
@@ -68,7 +70,7 @@ export default class ImportCommand implements CliCommandInterface {
         throw err;
       }
 
-      console.log(`Не удалось импортировать данные из файла по причине: «${chalk.yellow(err.message)}»`);
+      this.logger.info(`Не удалось импортировать данные из файла по причине: «${chalk.yellow(err.message)}»`);
     }
   }
 }
