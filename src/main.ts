@@ -1,10 +1,10 @@
 import 'reflect-metadata';
-import ConfigService from './common/config/config.service.js';
-import Application from './app/application.js';
+import { ConfigService } from './common/config/config.service.js';
+import { Application } from './app/application.js';
 import { Container } from 'inversify';
 import { LoggerInterface } from './common/logger/logger.interface.js';
 import { LoggerService } from './common/logger/logger.service.js';
-import { Component } from './types/component.types.js';
+import { Component } from './types/component.type.js';
 import { ConfigInterface } from './common/config/config.interface.js';
 import { DatabaseService } from './common/database-client/database.service.js';
 import { DatabaseInterface } from './common/database-client/database.interface.js';
@@ -27,6 +27,11 @@ import {
 } from './modules/comment/comment.entity.js';
 import { CommentServiceInterface } from './modules/comment/comment-service.interface.js';
 import { CommentService } from './modules/comment/comment.service.js';
+import { MovieController } from './modules/movie/movie.controller.js';
+import { UserController } from './modules/user/user.controller.js';
+import { ControllerInterface } from './common/controller/controller.interface.js';
+import { ExceptionFilter } from './common/errors/exception-filter.js';
+import { ExceptionFilterInterface } from './common/errors/exception-filter.interface.js';
 
 const applicationContainer = new Container();
 applicationContainer.bind<Application>(Component.Application).to(Application).inSingletonScope();
@@ -39,6 +44,9 @@ applicationContainer.bind<MovieServiceInterface>(Component.MovieServiceInterface
 applicationContainer.bind<types.ModelType<MovieEntity>>(Component.MovieModel).toConstantValue(MovieModel);
 applicationContainer.bind<CommentServiceInterface>(Component.CommentServiceInterface).to(CommentService);
 applicationContainer.bind<types.ModelType<CommentEntity>>(Component.CommentModel).toConstantValue(CommentModel);
+applicationContainer.bind<ControllerInterface>(Component.MovieController).to(MovieController).inSingletonScope();
+applicationContainer.bind<ControllerInterface>(Component.UserController).to(UserController).inSingletonScope();
+applicationContainer.bind<ExceptionFilterInterface>(Component.ExceptionFilterInterface).to(ExceptionFilter).inSingletonScope();
 
 const application = applicationContainer.get<Application>(Component.Application);
 await application.init();

@@ -9,10 +9,10 @@ import {
   configSchema,
   ConfigSchema
 } from './config.schema.js';
-import { Component } from '../../types/component.types.js';
+import { Component } from '../../types/component.type.js';
 
 @injectable()
-export default class ConfigService implements ConfigInterface {
+export class ConfigService implements ConfigInterface {
   private readonly config: ConfigSchema;
   private logger: LoggerInterface;
 

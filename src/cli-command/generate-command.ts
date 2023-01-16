@@ -4,7 +4,7 @@ import { generateMovieRowData } from '../common/generator/movie-generator.js';
 import { TSVFileWriter } from '../common/file-writer/tsv-file-writer.js';
 import got from 'got';
 
-export default class GenerateCommand implements CliCommandInterface {
+export class GenerateCommand implements CliCommandInterface {
   public readonly name = '--generate';
 
   public async execute(...parameters: string[]): Promise<void> {

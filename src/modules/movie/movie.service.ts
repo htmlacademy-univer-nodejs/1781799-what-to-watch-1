@@ -9,7 +9,7 @@ import {
   types
 } from '@typegoose/typegoose';
 import { MovieEntity } from './movie.entity.js';
-import { Component } from '../../types/component.types.js';
+import { Component } from '../../types/component.type.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { TGenre } from '../../types/genre.type.js';
 import { UpdateMovieDto } from './dto/update-movie.dto.js';
