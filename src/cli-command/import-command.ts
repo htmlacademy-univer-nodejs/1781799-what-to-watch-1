@@ -1,6 +1,6 @@
-import TSVFileReader from '../common/file-reader/tsv-file-reader.js';
 import chalk from 'chalk';
-import ConfigService from '../common/config/config.service';
+import { ConfigService } from '../common/config/config.service';
+import { TSVFileReader } from '../common/file-reader/tsv-file-reader.js';
 import { CliCommandInterface } from './cli-command.interface.js';
 import { getMovieByRowData } from '../common/generator/movie-generator.js';
 import { UserServiceInterface } from '../modules/user/user-service.interface';
@@ -16,7 +16,7 @@ import { DatabaseService } from '../common/database-client/database.service.js';
 import { getDatabaseURI } from '../utils/db.js';
 import { ConfigInterface } from '../common/config/config.interface';
 
-export default class ImportCommand implements CliCommandInterface {
+export class ImportCommand implements CliCommandInterface {
   public readonly name = '--import';
   private userService!: UserServiceInterface;
   private movieService!: MovieServiceInterface;

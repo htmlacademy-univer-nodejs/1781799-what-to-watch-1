@@ -3,7 +3,7 @@ import {
   injectable
 } from 'inversify';
 import { CommentServiceInterface } from './comment-service.interface.js';
-import { Component } from '../../types/component.types.js';
+import { Component } from '../../types/component.type.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import {
   DocumentType,

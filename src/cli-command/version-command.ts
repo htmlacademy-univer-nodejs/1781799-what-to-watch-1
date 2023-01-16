@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs';
 import { CliCommandInterface } from './cli-command.interface.js';
 
-export default class VersionCommand implements CliCommandInterface {
+export class VersionCommand implements CliCommandInterface {
   public readonly name = '--version';
 
   private readVersion(): string {
