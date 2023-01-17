@@ -18,6 +18,7 @@ import { CreateUserDto } from './dto/create-user.dto.js';
 import { LoginUserDto } from './dto/login-user.dto.js';
 import { UserResponse } from './response/user.response.js';
 import { UserServiceInterface } from './user-service.interface.js';
+import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 
 @injectable()
 export class UserController extends Controller {
@@ -29,12 +30,29 @@ export class UserController extends Controller {
     super(logger);
     this.logger.info('Register routes for UserController.');
 
-    this.addRoute({path: '/register', method: HttpMethod.Post, handler: this.create});
-    this.addRoute({path: '/login', method: HttpMethod.Post, handler: this.login});
+    this.addRoute({
+      path: '/register',
+      method: HttpMethod.Post,
+      handler: this.create,
+      middlewares: [
+        new ValidateDtoMiddleware(CreateUserDto),
+      ],
+    });
+    this.addRoute({
+      path: '/login',
+      method: HttpMethod.Post,
+      handler: this.login,
+      middlewares: [
+        new ValidateDtoMiddleware(LoginUserDto),
+      ],
+    });
     this.addRoute({path: '/login', method: HttpMethod.Get, handler: this.get});
   }
 
-  async create({body}: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>, res: Response): Promise<void> {
+  async create(
+    {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>,
+    res: Response
+  ): Promise<void> {
     const user = await this.userService.findByEmail(body.email);
 
     if (user) {
@@ -46,7 +64,10 @@ export class UserController extends Controller {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async login({body}: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>, _res: Response): Promise<void> {
+  async login(
+    {body}: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>,
+    _res: Response
+  ): Promise<void> {
     const user = await this.userService.findByEmail(body.email);
 
     if (!user) {
@@ -57,7 +78,10 @@ export class UserController extends Controller {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async get(_: Request<Record<string, unknown>, Record<string, unknown>, Record<string, string>>, _res: Response): Promise<void> {
+  async get(
+    _: Request<Record<string, unknown>, Record<string, unknown>, Record<string, string>>,
+    _res: Response
+  ): Promise<void> {
     throw new HttpError(StatusCodes.NOT_IMPLEMENTED, 'Not implemented', 'UserController',);
   }
 }

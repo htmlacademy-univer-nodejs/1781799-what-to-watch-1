@@ -22,6 +22,7 @@ export class Application {
     @inject(Component.MovieController) private movieController: ControllerInterface,
     @inject(Component.UserController) private userController: ControllerInterface,
     @inject(Component.ExceptionFilterInterface) private exceptionFilter: ExceptionFilterInterface,
+    @inject(Component.CommentController) private commentController: ControllerInterface,
   ) {
     this.express = express();
   }
@@ -29,6 +30,7 @@ export class Application {
   initRoutes() {
     this.express.use('/movies', this.movieController.router);
     this.express.use('/users', this.userController.router);
+    this.express.use('/comments', this.commentController.router);
   }
 
   initMiddleware() {
