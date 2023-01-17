@@ -1,4 +1,16 @@
 import 'reflect-metadata';
+import {
+  UserEntity,
+  UserModel,
+} from './modules/user/user.entity.js';
+import {
+  MovieEntity,
+  MovieModel,
+} from './modules/movie/movie.entity.js';
+import {
+  CommentEntity,
+  CommentModel,
+} from './modules/comment/comment.entity.js';
 import { ConfigService } from './common/config/config.service.js';
 import { Application } from './app/application.js';
 import { Container } from 'inversify';
@@ -10,21 +22,9 @@ import { DatabaseService } from './common/database-client/database.service.js';
 import { DatabaseInterface } from './common/database-client/database.interface.js';
 import { UserServiceInterface } from './modules/user/user-service.interface.js';
 import { UserService } from './modules/user/user.service.js';
-import {
-  UserEntity,
-  UserModel,
-} from './modules/user/user.entity.js';
 import { types } from '@typegoose/typegoose';
-import {
-  MovieEntity,
-  MovieModel,
-} from './modules/movie/movie.entity.js';
 import { MovieServiceInterface } from './modules/movie/movie-service.interface.js';
 import { MovieService } from './modules/movie/movie.service.js';
-import {
-  CommentEntity,
-  CommentModel,
-} from './modules/comment/comment.entity.js';
 import { CommentServiceInterface } from './modules/comment/comment-service.interface.js';
 import { CommentService } from './modules/comment/comment.service.js';
 import { MovieController } from './modules/movie/movie.controller.js';

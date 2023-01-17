@@ -1,8 +1,8 @@
-import asyncHandler from 'express-async-handler';
 import {
   Response,
-  Router
+  Router,
 } from 'express';
+import asyncHandler from 'express-async-handler';
 import { StatusCodes } from 'http-status-codes';
 import { injectable } from 'inversify';
 import { RouteInterface } from '../../types/route.interface.js';

@@ -3,13 +3,14 @@ import {
   modelOptions,
   defaultClasses,
   getModelForClass,
-  Ref
+  Ref,
 } from '@typegoose/typegoose';
-import { UserEntity } from '../user/user.entity.js';
 import {
   GENRES,
-  TGenre
+  TGenre,
 } from '../../types/genre.type.js';
+import { UserEntity } from '../user/user.entity.js';
+import { optional } from 'inversify';
 
 export interface MovieEntity extends defaultClasses.Base {
 }
@@ -39,7 +40,8 @@ export class MovieEntity extends defaultClasses.TimeStamps {
   @prop({required: true})
   public year!: number;
 
-  @prop({required: true})
+  @prop({required: true, default: 0})
+  @optional()
   public rating!: number;
 
   @prop({required: true})

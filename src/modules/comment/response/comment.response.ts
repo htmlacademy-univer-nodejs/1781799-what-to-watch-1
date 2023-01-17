@@ -1,6 +1,6 @@
 import {
   Expose,
-  Type
+  Type,
 } from 'class-transformer';
 import { UserResponse } from '../../user/response/user.response.js';
 

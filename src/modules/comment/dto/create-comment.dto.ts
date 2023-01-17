@@ -4,7 +4,7 @@ import {
   IsString,
   Length,
   Min,
-  Max,
+  Max, IsOptional,
 } from 'class-validator';
 
 export class CreateCommentDto {
@@ -13,7 +13,7 @@ export class CreateCommentDto {
   public text!: string;
 
   @IsNumber()
-  @Min(0)
+  @Min(1)
   @Max(10)
   public rating!: number;
 
@@ -21,5 +21,6 @@ export class CreateCommentDto {
   public movieId!: string;
 
   @IsMongoId()
+  @IsOptional()
   public userId!: string;
 }

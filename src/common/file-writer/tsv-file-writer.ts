@@ -1,6 +1,6 @@
 import {
   createWriteStream,
-  WriteStream
+  WriteStream,
 } from 'fs';
 import { FileWriterInterface } from './file-writer.interface';
 

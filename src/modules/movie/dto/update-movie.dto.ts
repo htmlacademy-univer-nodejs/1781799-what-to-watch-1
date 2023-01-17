@@ -1,10 +1,25 @@
-import { GenreEnum, TGenre } from '../../../types/genre.type.js';
-import { IsArray, IsDateString, IsEnum, IsInt, IsMongoId, IsString, Length, Matches, Max, Min } from 'class-validator';
+import {
+  GenreEnum,
+  TGenre,
+} from '../../../types/genre.type.js';
+import {
+  IsArray,
+  IsDateString,
+  IsEnum,
+  IsInt, IsOptional,
+  IsString,
+  Length,
+  Matches,
+  Max,
+  Min,
+} from 'class-validator';
 
 export class UpdateMovieDto {
+  @IsString()
   @Length(2, 100)
   public name?: string;
 
+  @IsString()
   @Length(20, 1024)
   public description?: string;
 
@@ -18,7 +33,8 @@ export class UpdateMovieDto {
   public year?: number;
 
   @IsInt()
-  @Min(0)
+  @IsOptional()
+  @Min(1)
   @Max(10)
   public rating?: number;
 
@@ -35,10 +51,9 @@ export class UpdateMovieDto {
   public director?: string;
 
   @IsInt()
-  @Min(0)
+  @Min(1)
   public duration?: number;
 
-  @IsMongoId()
   public userId?: string;
 
   @IsString()

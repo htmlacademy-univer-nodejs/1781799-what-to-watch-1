@@ -1,12 +1,12 @@
 import {
   Request,
-  Response
+  Response,
 } from 'express';
-import { StatusCodes } from 'http-status-codes';
 import {
   inject,
-  injectable
+  injectable,
 } from 'inversify';
+import { StatusCodes } from 'http-status-codes';
 import { ConfigInterface } from '../../common/config/config.interface.js';
 import { Controller } from '../../common/controller/controller.js';
 import { HttpError } from '../../common/errors/http-error.js';
@@ -22,6 +22,8 @@ import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.mid
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-objectid.middleware.js';
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
 import { UploadFileMiddleware } from '../../common/middlewares/upload-file.middleware.js';
+import { LoggedUserResponse } from './response/logged-user.response.js';
+import { createJwt } from '../../utils/jwt.js';
 
 @injectable()
 export class UserController extends Controller {
@@ -49,15 +51,19 @@ export class UserController extends Controller {
         new ValidateDtoMiddleware(LoginUserDto),
       ],
     });
-    this.addRoute({path: '/login', method: HttpMethod.Get, handler: this.get});
+    this.addRoute({
+      path: '/login',
+      method: HttpMethod.Get,
+      handler: this.get
+    });
     this.addRoute({
       path: '/:userId/avatar',
       method: HttpMethod.Post,
       handler: this.uploadAvatar,
       middlewares: [
         new ValidateObjectIdMiddleware('userId'),
-        new UploadFileMiddleware(this.configService.get('UPLOAD_DIR'), 'avatar'),
         new DocumentExistsMiddleware(this.userService, 'User', 'userId'),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIR'), 'avatar'),
       ]
     });
   }
@@ -78,25 +84,27 @@ export class UserController extends Controller {
 
   async login(
     {body}: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _res: Response
+    res: Response
   ): Promise<void> {
-    const user = await this.userService.findByEmail(body.email);
-
+    const user = await this.userService.verifyUser(body, this.configService.get('SALT'));
     if (!user) {
-      throw new HttpError(StatusCodes.UNAUTHORIZED, `User with email ${body.email} not found.`, 'UserController',);
+      throw new HttpError(StatusCodes.UNAUTHORIZED, `User with email ${body.email} not found or pass is invalid.`, 'UserController',);
     }
 
-    throw new HttpError(StatusCodes.NOT_IMPLEMENTED, 'Not implemented', 'UserController',);
+    const token = await createJwt(
+      this.configService.get('JWT_SECRET'),
+      { email: user.email, id: user.id}
+    );
+
+    this.ok(res, fillDto(LoggedUserResponse, {email: user.email, token}));
   }
 
   async get(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _: Request<Record<string, unknown>, Record<string, unknown>, Record<string, string>>,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _res: Response
+    body: Request<Record<string, unknown>, Record<string, unknown>, Record<string, string>>,
+    res: Response
   ): Promise<void> {
-    throw new HttpError(StatusCodes.NOT_IMPLEMENTED, 'Not implemented', 'UserController',);
+    const user = await this.userService.findByEmail(body.user.email);
+    this.ok(res, fillDto(LoggedUserResponse, user));
   }
 
   public async uploadAvatar(req: Request, res: Response) {

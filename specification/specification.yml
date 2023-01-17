@@ -172,7 +172,7 @@ paths:
         "404":
           description: Фильма с данным id не существует.
 
-  /movies?limit=50&genre=documentary:
+  /movies?genre=Documentary:
     get:
       tags:
         - movies
@@ -181,16 +181,11 @@ paths:
 
       parameters:
         - in: query
-          name: limit
-          schema:
-            type: integer
-            example: 45
-        - in: query
           name: genre
           schema:
             type: string
-            enum: [ comedy, crime, documentary, drama, horror, family, romance, scifi, thriller ]
-            example: documentary
+            enum: [ Comedy, Crime, Documentary, Drama, Horror, Family, Romance, Scifi, Thriller ]
+            example: Documentary
 
       responses:
         "200":
@@ -200,7 +195,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/movieListItem'
+                  $ref: '#/components/schemas/movie'
 
         "400":
           description: Некорректный запрос.
@@ -219,124 +214,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/movie'
-
-  /movies/to_watch:
-    get:
-      tags:
-        - movies
-      summary: Получить список фильмов "К просмотру".
-      description: Возвращает список фильмов, добавленных к просмотру.
-
-      parameters:
-        - in: header
-          name: Authorization
-          required: true
-          schema:
-            type: string
-            format: Bearer jwt
-
-      requestBody:
-        description: Id пользователя, запрашивающего фильмы к просмотру.
-        content:
-          application/json:
-            schema:
-              type: object
-
-              properties:
-                userId:
-                  type: string
-                  format: uuid
-
-              required:
-                - userId
-
-      responses:
-        "200":
-          description: Фильмы, добавленные к просмотру.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/movieListItem'
-
-        "401":
-          description: Пользователь не авторизован.
-
-        "403":
-          description: Нет доступа.
-
-    post:
-      tags:
-        - movies
-      summary: Добавить фильм в список "К просмотру".
-      description: Добавляет фильм в список "К просмотру".
-
-      requestBody:
-        description: Id фильма, который необходимо добавить из списка "К просмотру" и id пользователя, которому нужно добавить фильм к просмотру.
-        content:
-          application/json:
-            schema:
-              type: object
-
-              properties:
-                userId:
-                  type: string
-                  format: uuid
-
-                movieId:
-                  type: string
-                  format: uuid
-
-              required:
-                - userId
-                - movieId
-
-      responses:
-        "201":
-          description: Фильм добавлен в список "К просмотру".
-
-        "401":
-          description: Пользователь не авторизован.
-
-        "403":
-          description: Нет доступа.
-
-    delete:
-      tags:
-        - movies
-      summary: Удалить фильм из списка "К просмотру".
-      description: Удаляет фильм из списка "К просмотру".
-
-      requestBody:
-        description: Id фильма, который необходимо убрать из списка "К просмотру" и id пользователя, у которого удалить фильм.
-        content:
-          application/json:
-            schema:
-              type: object
-
-              properties:
-                userId:
-                  type: string
-                  format: uuid
-
-                movieId:
-                  type: string
-                  format: uuid
-
-              required:
-                - userId
-                - movieId
-
-      responses:
-        "204":
-          description: Фильм удален из списка "К просмотру".
-
-        "401":
-          description: Пользователь не авторизован.
-
-        "403":
-          description: Нет доступа.
 
   /movies/{movieId}/comments:
     get:
@@ -572,8 +449,8 @@ components:
 
         genre:
           type: string
-          enum: [ comedy, crime, documentary, drama, horror, family, romance, scifi, thriller ]
-          example: documentary
+          enum: [ Comedy, Crime, Documentary, Drama, Horror, Family, Romance, Scifi, Thriller ]
+          example: Documentary
 
         year:
           type: integer
@@ -666,8 +543,8 @@ components:
 
         genre:
           type: string
-          enum: [ comedy, crime, documentary, drama, horror, family, romance, scifi, thriller ]
-          example: documentary
+          enum: [ Comedy, Crime, Documentary, Drama, Horror, Family, Romance, Scifi, Thriller ]
+          example: Documentary
 
         year:
           type: integer
@@ -768,66 +645,6 @@ components:
         userId:
           type: string
           format: uuid
-
-    addInToWatchList:
-      type: object
-
-      properties:
-        movieId:
-          type: string
-          format: uuid
-
-      required:
-        - movieId
-
-    movieListItem:
-      type: object
-
-      properties:
-        name:
-          type: string
-          minLength: 2
-          maxLength: 100
-          example: Бумажный дом
-
-        postDate:
-          type: string
-          format: date-time
-          example: 2022-01-01T00:00:00.000Z
-
-        genre:
-          type: string
-          enum: [ comedy, crime, documentary, drama, horror, family, romance, scifi, thriller ]
-          example: documentary
-
-        previewPath:
-          type: string
-          format: url
-          example: https://example.com
-
-        user:
-          $ref: '#/components/schemas/user'
-
-        posterPath:
-          type: string
-          format: uri
-          pattern: ([^\s]+(\.jpg)$)
-          example: example.jpg
-
-        commentsCount:
-          type: integer
-          minimum: 0
-          example: 15
-
-      required:
-        - title
-        - postDate
-        - genre
-        - previewPath
-        - user
-        - posterPath
-        - commentsCount
-
 
     comment:
       type: object

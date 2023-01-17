@@ -1,9 +1,9 @@
-import { MiddlewareInterface } from '../../types/middleware.interface.js';
 import {
   NextFunction,
   Request,
-  Response
+  Response,
 } from 'express';
+import { MiddlewareInterface } from '../../types/middleware.interface.js';
 import { HttpError } from '../errors/http-error.js';
 import { StatusCodes } from 'http-status-codes';
 import { DocumentExistsInterface } from '../../types/document-exists.interface';

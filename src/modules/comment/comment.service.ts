@@ -1,14 +1,14 @@
 import {
   inject,
-  injectable
+  injectable,
 } from 'inversify';
+import {
+  DocumentType,
+  types,
+} from '@typegoose/typegoose';
 import { CommentServiceInterface } from './comment-service.interface.js';
 import { Component } from '../../types/component.type.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
-import {
-  DocumentType,
-  types
-} from '@typegoose/typegoose';
 import { CommentEntity } from './comment.entity.js';
 import { CreateCommentDto } from './dto/create-comment.dto.js';
 

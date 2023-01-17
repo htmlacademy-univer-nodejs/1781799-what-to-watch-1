@@ -1,13 +1,13 @@
 import {
   inject,
-  injectable
+  injectable,
 } from 'inversify';
-import { MovieServiceInterface } from './movie-service.interface.js';
-import { CreateMovieDto } from './dto/create-movie.dto.js';
 import {
   DocumentType,
-  types
+  types,
 } from '@typegoose/typegoose';
+import { MovieServiceInterface } from './movie-service.interface.js';
+import { CreateMovieDto } from './dto/create-movie.dto.js';
 import { MovieEntity } from './movie.entity.js';
 import { Component } from '../../types/component.type.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
