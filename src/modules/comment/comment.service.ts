@@ -27,7 +27,7 @@ export class CommentService implements CommentServiceInterface {
     return comment.populate('userId');
   }
 
-  async findByMovieId(movieId: string): Promise<DocumentType<CommentEntity>[]> {
+  async findById(movieId: string): Promise<DocumentType<CommentEntity>[]> {
     const comments = await this.commentModel
       .find({movieId})
       .populate('userId');

@@ -19,6 +19,9 @@ import { LoginUserDto } from './dto/login-user.dto.js';
 import { UserResponse } from './response/user.response.js';
 import { UserServiceInterface } from './user-service.interface.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
+import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-objectid.middleware.js';
+import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
+import { UploadFileMiddleware } from '../../common/middlewares/upload-file.middleware.js';
 
 @injectable()
 export class UserController extends Controller {
@@ -47,6 +50,16 @@ export class UserController extends Controller {
       ],
     });
     this.addRoute({path: '/login', method: HttpMethod.Get, handler: this.get});
+    this.addRoute({
+      path: '/:userId/avatar',
+      method: HttpMethod.Post,
+      handler: this.uploadAvatar,
+      middlewares: [
+        new ValidateObjectIdMiddleware('userId'),
+        new UploadFileMiddleware(this.configService.get('UPLOAD_DIR'), 'avatar'),
+        new DocumentExistsMiddleware(this.userService, 'User', 'userId'),
+      ]
+    });
   }
 
   async create(
@@ -84,5 +97,11 @@ export class UserController extends Controller {
     _res: Response
   ): Promise<void> {
     throw new HttpError(StatusCodes.NOT_IMPLEMENTED, 'Not implemented', 'UserController',);
+  }
+
+  public async uploadAvatar(req: Request, res: Response) {
+    this.created(res, {
+      filepath: req.file?.path
+    });
   }
 }

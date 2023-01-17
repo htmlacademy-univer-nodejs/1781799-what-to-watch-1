@@ -35,6 +35,10 @@ export class Application {
 
   initMiddleware() {
     this.express.use(express.json());
+    this.express.use(
+      '/upload',
+      express.static(this.config.get('UPLOAD_DIR'))
+    );
   }
 
   initExceptionFilters() {
