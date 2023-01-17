@@ -63,9 +63,9 @@ export class UserController extends Controller {
     this.created(res, fillDto(UserResponse, newUser));
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async login(
     {body}: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _res: Response
   ): Promise<void> {
     const user = await this.userService.findByEmail(body.email);
@@ -77,9 +77,10 @@ export class UserController extends Controller {
     throw new HttpError(StatusCodes.NOT_IMPLEMENTED, 'Not implemented', 'UserController',);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async get(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _: Request<Record<string, unknown>, Record<string, unknown>, Record<string, string>>,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _res: Response
   ): Promise<void> {
     throw new HttpError(StatusCodes.NOT_IMPLEMENTED, 'Not implemented', 'UserController',);
