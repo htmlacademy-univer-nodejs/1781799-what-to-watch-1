@@ -1,11 +1,11 @@
 import {
   NextFunction,
   Request,
-  Response
+  Response,
 } from 'express';
 import {
   inject,
-  injectable
+  injectable,
 } from 'inversify';
 import { StatusCodes } from 'http-status-codes';
 import { ExceptionFilterInterface } from './exception-filter.interface.js';

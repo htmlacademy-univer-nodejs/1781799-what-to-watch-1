@@ -1,6 +1,6 @@
 import {
   Request,
-  Response
+  Response,
 } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { inject } from 'inversify';
@@ -15,6 +15,7 @@ import { CommentServiceInterface } from './comment-service.interface.js';
 import { CreateCommentDto } from './dto/create-comment.dto.js';
 import { CommentResponse } from './response/comment.response.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
+import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
 
 export class CommentController extends Controller {
   constructor(
@@ -30,13 +31,17 @@ export class CommentController extends Controller {
       method: HttpMethod.Post,
       handler: this.create,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateDtoMiddleware(CreateCommentDto),
       ],
     });
   }
 
   public async create(
-    {body}: Request<object, object, CreateCommentDto>,
+    {
+      body,
+      user
+    }: Request<object, object, CreateCommentDto>,
     res: Response
   ): Promise<void> {
     if (!await this.movieService.findById(body.movieId)) {
@@ -47,7 +52,8 @@ export class CommentController extends Controller {
       );
     }
 
-    const comment = await this.commentService.create(body);
+    const comment = await this.commentService.create({...body, userId: user.id});
+    await this.movieService.updateMovieRating(body.movieId, comment.rating);
     await this.movieService.incrementCommentsCount(body.movieId);
     this.created(res, fillDto(CommentResponse, comment));
   }

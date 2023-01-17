@@ -1,7 +1,7 @@
 import {
   NextFunction,
   Request,
-  Response
+  Response,
 } from 'express';
 
 export interface MiddlewareInterface {

@@ -3,21 +3,22 @@ import {
   IsDateString,
   IsEnum,
   IsInt,
-  IsMongoId,
   IsString,
   Length,
   Matches,
   Min,
 } from 'class-validator';
 import {
-  TGenre,
   GenreEnum,
+  TGenre,
 } from '../../../types/genre.type.js';
 
 export class CreateMovieDto {
+  @IsString()
   @Length(2, 100)
   public name!: string;
 
+  @IsString()
   @Length(20, 1024)
   public description!: string;
 
@@ -43,10 +44,9 @@ export class CreateMovieDto {
   public director!: string;
 
   @IsInt()
-  @Min(0)
+  @Min(1)
   public duration!: number;
 
-  @IsMongoId()
   public userId!: string;
 
   @IsString()

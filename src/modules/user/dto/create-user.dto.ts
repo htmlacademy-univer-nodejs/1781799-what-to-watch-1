@@ -1,5 +1,6 @@
 import {
   IsEmail,
+  IsOptional,
   IsString,
   Length,
   Matches,
@@ -17,6 +18,7 @@ export class CreateUserDto {
   public password!: string;
 
   @IsString()
+  @IsOptional()
   @Matches(/[^\\s]+(.*?)\\.(jpg|png)$/)
   public avatarPath?: string;
 }

@@ -1,12 +1,12 @@
 import {
   NextFunction,
   Request,
-  Response
+  Response,
 } from 'express';
-import { nanoid } from 'nanoid';
-import multer, { diskStorage } from 'multer';
-import { MiddlewareInterface } from '../../types/middleware.interface.js';
 import mime from 'mime-types';
+import multer, { diskStorage } from 'multer';
+import { nanoid } from 'nanoid';
+import { MiddlewareInterface } from '../../types/middleware.interface.js';
 
 export class UploadFileMiddleware implements MiddlewareInterface {
   constructor(

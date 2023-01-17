@@ -1,9 +1,9 @@
-import { Types } from 'mongoose';
 import {
   NextFunction,
   Request,
-  Response
+  Response,
 } from 'express';
+import { Types } from 'mongoose';
 import { StatusCodes } from 'http-status-codes';
 import { HttpError } from '../errors/http-error.js';
 import { MiddlewareInterface } from '../../types/middleware.interface';

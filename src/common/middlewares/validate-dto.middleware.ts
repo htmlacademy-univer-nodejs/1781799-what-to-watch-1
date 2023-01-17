@@ -1,11 +1,11 @@
-import { plainToInstance } from 'class-transformer';
-import { ClassConstructor } from 'class-transformer/types/interfaces/class-constructor.type.js';
-import { validate } from 'class-validator';
 import {
   NextFunction,
   Request,
   Response,
 } from 'express';
+import { plainToInstance } from 'class-transformer';
+import { ClassConstructor } from 'class-transformer/types/interfaces/class-constructor.type.js';
+import { validate } from 'class-validator';
 import { StatusCodes } from 'http-status-codes';
 import { MiddlewareInterface } from '../../types/middleware.interface.js';
 

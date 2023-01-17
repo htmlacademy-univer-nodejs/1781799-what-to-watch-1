@@ -1,15 +1,16 @@
-import { LoggerInterface } from '../common/logger/logger.interface.js';
-import { ConfigInterface } from '../common/config/config.interface.js';
 import {
   inject,
-  injectable
+  injectable,
 } from 'inversify';
+import express, { Express } from 'express';
+import { LoggerInterface } from '../common/logger/logger.interface.js';
+import { ConfigInterface } from '../common/config/config.interface.js';
 import { Component } from '../types/component.type.js';
 import { getDatabaseURI } from '../utils/db.js';
 import { DatabaseInterface } from '../common/database-client/database.interface.js';
-import express, { Express } from 'express';
 import { ControllerInterface } from '../common/controller/controller.interface.js';
 import { ExceptionFilterInterface } from '../common/errors/exception-filter.interface.js';
+import { AuthenticateMiddleware } from '../common/middlewares/authenticate.middleware.js';
 
 @injectable()
 export class Application {
@@ -39,6 +40,8 @@ export class Application {
       '/upload',
       express.static(this.config.get('UPLOAD_DIR'))
     );
+    const authenticateMiddleware = new AuthenticateMiddleware(this.config.get('JWT_SECRET'));
+    this.express.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
   }
 
   initExceptionFilters() {

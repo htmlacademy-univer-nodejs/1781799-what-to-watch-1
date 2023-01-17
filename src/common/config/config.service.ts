@@ -1,14 +1,14 @@
-import { config } from 'dotenv';
 import {
   inject,
-  injectable
+  injectable,
 } from 'inversify';
-import { ConfigInterface } from './config.interface.js';
-import { LoggerInterface } from '../logger/logger.interface.js';
 import {
   configSchema,
-  ConfigSchema
+  ConfigSchema,
 } from './config.schema.js';
+import { config } from 'dotenv';
+import { ConfigInterface } from './config.interface.js';
+import { LoggerInterface } from '../logger/logger.interface.js';
 import { Component } from '../../types/component.type.js';
 
 @injectable()

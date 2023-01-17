@@ -1,13 +1,151 @@
 ###
 
+# Пользователи
+
+## Создание нового пользователя
+POST http://localhost:4000/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "example",
+  "email": "example@mail.ru",
+  "password": "123456"
+}
+
+###
+
+## Вход в закрытую часть
+POST http://localhost:4000/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "example@mail.ru",
+  "password": "123456"
+}
+
+###
+
+## Получение токена
+GET http://localhost:4000/users/login HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImV4YW1wbGVAbWFpbC5ydSIsImlkIjoiNjNjNmQ2MmY5NGYwMjQxMTc0MWYxMmE4IiwiaWF0IjoxNjczOTc1MzQ2LCJleHAiOjE2NzQxNDgxNDZ9.9ezXhGP0Iu-FDDcluW9FWxLcS0XeKerU__IB3lJf3ZQ
+
+###
+
 ## Отправка аватарки пользователю
 
 POST http://localhost:4000/users/63c4820a319cb08e2545cf34/avatar HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
-------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="avatar"; filename="example.png"
 Content-Type: image/png
 
 < ./upload_dir/example.png
-------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+# Фильмы
+
+## Создание фильма
+POST http://localhost:4000/movies/create HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImV4YW1wbGVAbWFpbC5ydSIsImlkIjoiNjNjNmQ2MmY5NGYwMjQxMTc0MWYxMmE4IiwiaWF0IjoxNjczOTc1MzQ2LCJleHAiOjE2NzQxNDgxNDZ9.9ezXhGP0Iu-FDDcluW9FWxLcS0XeKerU__IB3lJf3ZQ
+
+{
+  "name": "Бумажный дом",
+  "description": "Профессор с бандой в масках Дали грабят монетный двор Испании",
+  "postDate": "2021-01-01",
+  "genre": "Thriller",
+  "year": 2020,
+  "previewPath": "https://example.com",
+  "videoPath": "https://example.com",
+  "actors": [
+    "Мелисса МакКарти",
+    "Джеффри Раш"
+  ],
+  "director": "Джеффри Раш",
+  "duration": 90,
+  "posterPath": "example.jpg",
+  "backgroundImagePath": "example.jpg",
+  "backgroundColor": "red"
+}
+
+###
+
+## Редактирование фильма
+PATCH http://localhost:4000/movies/63c6dc2a20e84b0bf50dcca6 HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImV4YW1wbGVAbWFpbC5ydSIsImlkIjoiNjNjNmQ2MmY5NGYwMjQxMTc0MWYxMmE4IiwiaWF0IjoxNjczOTc1MzQ2LCJleHAiOjE2NzQxNDgxNDZ9.9ezXhGP0Iu-FDDcluW9FWxLcS0XeKerU__IB3lJf3ZQ
+
+{
+  "name": "Бумажный дом",
+  "description": "Профессор с бандой в масках Дали грабят монетный двор Испании",
+  "postDate": "2021-01-01",
+  "genre": "Thriller",
+  "year": 2020,
+  "previewPath": "https://example.com",
+  "videoPath": "https://example.com",
+  "actors": [
+    "Мелисса МакКарти",
+    "Джеффри Раш"
+  ],
+  "director": "Джеффри Раш",
+  "duration": 90,
+  "posterPath": "example.jpg",
+  "backgroundImagePath": "example.jpg",
+  "backgroundColor": "black",
+  "isPromo": true
+}
+
+###
+
+## Удаление фильма
+DELETE http://localhost:4000/movies/63c6da9f980ced521eb4dac0 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImV4YW1wbGVAbWFpbC5ydSIsImlkIjoiNjNjNmQ2MmY5NGYwMjQxMTc0MWYxMmE4IiwiaWF0IjoxNjczOTc1MzQ2LCJleHAiOjE2NzQxNDgxNDZ9.9ezXhGP0Iu-FDDcluW9FWxLcS0XeKerU__IB3lJf3ZQ
+
+###
+
+## Получить список фильмов
+GET http://localhost:4000/movies HTTP/1.1
+Accept: application/json
+
+###
+
+## Получение списка фильмов по жанру
+GET http://localhost:4000/movies?genre=Thriller HTTP/1.1
+Accept: application/json
+
+###
+
+## Получение информации по фильму
+GET http://localhost:4000/movies/63c6dc2a20e84b0bf50dcca6 HTTP/1.1
+Accept: application/json
+
+###
+
+## Получение промо-фильма
+GET http://localhost:4000/movies/promo HTTP/1.1
+Accept: application/json
+
+###
+
+# Комментарии
+
+## Добавить новый комментарий к определённому фильму
+POST http://localhost:4000/comments HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImV4YW1wbGVAbWFpbC5ydSIsImlkIjoiNjNjNmQ2MmY5NGYwMjQxMTc0MWYxMmE4IiwiaWF0IjoxNjczOTc1MzQ2LCJleHAiOjE2NzQxNDgxNDZ9.9ezXhGP0Iu-FDDcluW9FWxLcS0XeKerU__IB3lJf3ZQ
+
+{
+  "text": "Фильм топ!!!!",
+  "rating": 10,
+  "movieId": "63c6dc2a20e84b0bf50dcca6"
+}
+
+###
+## Получить список комментариев для определённого фильма
+GET http://localhost:4000/movies/63c6dc2a20e84b0bf50dcca6/comments HTTP/1.1
+Accept: application/json
+
+###

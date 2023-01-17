@@ -1,7 +1,7 @@
 import {
   NextFunction,
   Request,
-  Response
+  Response,
 } from 'express';
 import { HttpMethod } from './http-method.enum.js';
 import { MiddlewareInterface } from './middleware.interface.js';

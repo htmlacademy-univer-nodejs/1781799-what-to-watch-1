@@ -1,15 +1,15 @@
-import { MockData } from '../../types/mock-data.type.js';
 import {
   getRandomItem,
   getRandomItems,
-  getRandomNumber
+  getRandomNumber,
 } from '../../utils/random.js';
 import {
   GENRES,
-  getGenre
+  getGenre,
 } from '../../types/genre.type.js';
-import { Movie } from '../../types/movie.type.js';
 import dayjs from 'dayjs';
+import { MockData } from '../../types/mock-data.type.js';
+import { Movie } from '../../types/movie.type.js';
 
 export const generateMovieRowData = (data: MockData): string => [
   getRandomItem(data.names),

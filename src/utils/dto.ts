@@ -1,6 +1,6 @@
 import {
   ClassConstructor,
-  plainToInstance
+  plainToInstance,
 } from 'class-transformer';
 
 export const fillDto = <T, V>(someDto: ClassConstructor<T>, plainObject: V) =>

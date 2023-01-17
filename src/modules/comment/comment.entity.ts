@@ -3,7 +3,7 @@ import {
   getModelForClass,
   modelOptions,
   prop,
-  Ref
+  Ref,
 } from '@typegoose/typegoose';
 import { MovieEntity } from '../movie/movie.entity.js';
 import { UserEntity } from '../user/user.entity.js';
