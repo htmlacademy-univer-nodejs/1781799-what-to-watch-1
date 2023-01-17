@@ -1,12 +1,12 @@
 import chalk from 'chalk';
-import { ConfigService } from '../common/config/config.service';
+import { ConfigService } from '../common/config/config.service.js';
 import { TSVFileReader } from '../common/file-reader/tsv-file-reader.js';
 import { CliCommandInterface } from './cli-command.interface.js';
 import { getMovieByRowData } from '../common/generator/movie-generator.js';
 import { UserServiceInterface } from '../modules/user/user-service.interface';
-import { MovieServiceInterface } from '../modules/movie/movie-service.interface';
-import { DatabaseInterface } from '../common/database-client/database.interface';
-import { LoggerInterface } from '../common/logger/logger.interface';
+import { MovieServiceInterface } from '../modules/movie/movie-service.interface.js';
+import { DatabaseInterface } from '../common/database-client/database.interface.js';
+import { LoggerInterface } from '../common/logger/logger.interface.js';
 import { MovieService } from '../modules/movie/movie.service.js';
 import { LoggerService } from '../common/logger/logger.service.js';
 import { MovieModel } from '../modules/movie/movie.entity.js';
@@ -14,7 +14,7 @@ import { UserService } from '../modules/user/user.service.js';
 import { UserModel } from '../modules/user/user.entity.js';
 import { DatabaseService } from '../common/database-client/database.service.js';
 import { getDatabaseURI } from '../utils/db.js';
-import { ConfigInterface } from '../common/config/config.interface';
+import { ConfigInterface } from '../common/config/config.interface.js';
 
 export class ImportCommand implements CliCommandInterface {
   public readonly name = '--import';
@@ -38,7 +38,7 @@ export class ImportCommand implements CliCommandInterface {
       this.config.get('DB_USER'),
       this.config.get('DB_PASSWORD'),
       this.config.get('DB_HOST'),
-      this.config.get('PORT'),
+      this.config.get('DB_PORT'),
       this.config.get('DB_NAME'));
     this.salt = this.config.get('SALT');
 
@@ -60,6 +60,7 @@ export class ImportCommand implements CliCommandInterface {
     });
     fileReader.on('end', (count) => {
       this.logger.info(`${count} rows imported.`);
+      setTimeout(() => this.databaseService.disconnect(), 2000);
     });
 
     try {

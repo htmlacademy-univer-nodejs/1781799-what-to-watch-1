@@ -2,6 +2,7 @@ import {
   inject,
   injectable,
 } from 'inversify';
+import cors from 'cors';
 import express, { Express } from 'express';
 import { LoggerInterface } from '../common/logger/logger.interface.js';
 import { ConfigInterface } from '../common/config/config.interface.js';
@@ -42,6 +43,7 @@ export class Application {
     );
     const authenticateMiddleware = new AuthenticateMiddleware(this.config.get('JWT_SECRET'));
     this.express.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
+    this.express.use(cors());
   }
 
   initExceptionFilters() {
