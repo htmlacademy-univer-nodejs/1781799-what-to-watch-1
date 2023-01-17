@@ -15,18 +15,18 @@
       "description-5"
     ],
     "previewPaths": [
-      "preview-path-1",
-      "preview-path-2",
-      "preview-path-3",
-      "preview-path-4",
-      "preview-path-5"
+      "https://preview-path-1.com",
+      "https://preview-path-2.com",
+      "https://preview-path-3.com",
+      "https://preview-path-4.com",
+      "https://preview-path-5.com"
     ],
     "videoPaths": [
-      "video-path-1",
-      "video-path-2",
-      "video-path-3",
-      "video-path-4",
-      "video-path-5"
+      "https://video-path-1.com",
+      "https://video-path-1.com",
+      "https://video-path-1.com",
+      "https://video-path-1.com",
+      "https://video-path-1.com"
     ],
     "actors": [
       "actor-1",
@@ -57,25 +57,25 @@
       "email-5"
     ],
     "avatarPaths": [
-      "avatar-path-1",
-      "avatar-path-2",
-      "avatar-path-3",
-      "avatar-path-4",
-      "avatar-path-5"
+      "avatar-path-1.jpg",
+      "avatar-path-2.jpg",
+      "avatar-path-3.jpg",
+      "avatar-path-4.jpg",
+      "avatar-path-5.jpg"
     ],
     "posterPaths": [
-      "poster-path-1",
-      "poster-path-2",
-      "poster-path-3",
-      "poster-path-4",
-      "poster-path-5"
+      "poster-path-1.jpg",
+      "poster-path-2.jpg",
+      "poster-path-3.jpg",
+      "poster-path-4.jpg",
+      "poster-path-5.jpg"
     ],
     "backgroundImagePaths": [
-      "poster-path-1",
-      "poster-path-2",
-      "poster-path-3",
-      "poster-path-4",
-      "poster-path-5"
+      "poster-path-1.jpg",
+      "poster-path-2.jpg",
+      "poster-path-3.jpg",
+      "poster-path-4.jpg",
+      "poster-path-5.jpg"
     ],
     "backgroundColors": [
       "background-color-1",
