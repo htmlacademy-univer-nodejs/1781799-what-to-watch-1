@@ -31,12 +31,10 @@ export class MovieService implements MovieServiceInterface {
   }
 
   async findById(movieId: string): Promise<DocumentType<MovieEntity> | null> {
-    const movie = await this.movieModel.findById(movieId).exec();
-    if (!movie) {
-      this.logger.warn(`Movie ${movieId} not found`);
-    }
-
-    return this.movieModel.findById(movieId).populate(['userId']).exec();
+    return await this.movieModel
+      .findById(movieId)
+      .populate(['userId'])
+      .exec();
   }
 
   async deleteById(movieId: string): Promise<DocumentType<MovieEntity> | null> {
@@ -101,17 +99,10 @@ export class MovieService implements MovieServiceInterface {
   }
 
   async updateById(movieId: string, dto: UpdateMovieDto): Promise<DocumentType<MovieEntity> | null> {
-    const newMovie = await this.movieModel
+    return await this.movieModel
       .findByIdAndUpdate(movieId, dto)
       .populate('userId')
       .exec();
-    if (newMovie) {
-      this.logger.info(`The movie ${movieId} has been updated`);
-    } else {
-      this.logger.warn(`Failed to update movie ${movieId}`);
-    }
-
-    return newMovie;
   }
 
   async updateMovieRating(movieId: string, newRating: number): Promise<DocumentType<MovieEntity> | null> {

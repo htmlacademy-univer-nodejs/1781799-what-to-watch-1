@@ -13,10 +13,11 @@ import { HttpMethod } from '../../types/http-method.enum.js';
 import { fillDto } from '../../utils/dto.js';
 import { MovieServiceInterface } from './movie-service.interface.js';
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-objectid.middleware.js';
-import { CommentServiceInterface } from '../comment/comment-service.interface';
-import { MovieParamsType } from './movie-params.type';
-import { CommentResponse } from '../comment/response/comment.response';
-import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware';
+import { CommentServiceInterface } from '../comment/comment-service.interface.js';
+import { MovieParamsType } from './movie-params.type.js';
+import { CommentResponse } from '../comment/response/comment.response.js';
+import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
+import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
 
 @injectable()
 export class MovieController extends Controller {
@@ -45,6 +46,7 @@ export class MovieController extends Controller {
       handler: this.show,
       middlewares: [
         new ValidateObjectIdMiddleware('movieId'),
+        new DocumentExistsMiddleware(this.movieService, 'Movie', 'movieId'),
       ],
     });
     this.addRoute({
@@ -54,6 +56,7 @@ export class MovieController extends Controller {
       middlewares: [
         new ValidateObjectIdMiddleware('movieId'),
         new ValidateDtoMiddleware(UpdateMovieDto),
+        new DocumentExistsMiddleware(this.movieService, 'Movie', 'movieId'),
       ],
     });
     this.addRoute({
@@ -62,6 +65,7 @@ export class MovieController extends Controller {
       handler: this.delete,
       middlewares: [
         new ValidateObjectIdMiddleware('movieId'),
+        new DocumentExistsMiddleware(this.movieService, 'Movie', 'movieId'),
       ],
     });
     this.addRoute({
@@ -70,6 +74,7 @@ export class MovieController extends Controller {
       handler: this.showComments,
       middlewares: [
         new ValidateObjectIdMiddleware('movieId'),
+        new DocumentExistsMiddleware(this.movieService, 'Movie', 'movieId'),
       ],
     });
   }
@@ -142,7 +147,7 @@ export class MovieController extends Controller {
     {params}: Request<core.ParamsDictionary | MovieParamsType>,
     res: Response
   ): Promise<void> {
-    const comments = await this.commentService.findByMovieId(params.movieId);
+    const comments = await this.commentService.findById(params.movieId);
     this.ok(res, fillDto(CommentResponse, comments));
   }
 }

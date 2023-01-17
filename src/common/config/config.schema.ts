@@ -11,6 +11,7 @@ export type ConfigSchema = {
   DB_PASSWORD: string;
   DB_PORT: number;
   DB_NAME: string;
+  UPLOAD_DIR: string;
 }
 
 export const configSchema = convict<ConfigSchema>({
@@ -55,5 +56,11 @@ export const configSchema = convict<ConfigSchema>({
     format: String,
     env: 'DB_NAME',
     default: 'what-to-watch-db'
-  }
+  },
+  UPLOAD_DIR: {
+    doc: '',
+    format: String,
+    env: 'UPLOAD_DIR',
+    default: 'upload_dir'
+  },
 });

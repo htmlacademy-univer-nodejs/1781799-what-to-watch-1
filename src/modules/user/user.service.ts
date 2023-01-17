@@ -53,4 +53,13 @@ export class UserService implements UserServiceInterface {
     }
     return newUser;
   }
+
+  async findById(userId: string): Promise<DocumentType<UserEntity> | null> {
+    const user = await this.userModel.findById(userId).exec();
+    if (!user) {
+      this.logger.warn(`User ${userId} not found`);
+    }
+
+    return user;
+  }
 }
